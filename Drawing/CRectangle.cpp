@@ -16,6 +16,7 @@ using namespace std;
 CRectangle::CRectangle(char fillChar)
 {
 	m_fillChar = fillChar;
+	setCorners(CPoint(), CPoint());
 }
 
 
@@ -24,62 +25,46 @@ CRectangle::CRectangle(char fillChar)
 CRectangle::CRectangle(CPoint bottomLeft, CPoint topRight, char fillChar)
 {
 	m_fillChar = fillChar;
+	setCorners(bottomLeft, topRight);
+}
+
+
+void CRectangle::setCorners(CPoint bottomLeft, CPoint topRight){
 	m_bottomLeft = bottomLeft;
 	m_topRight = topRight;
-	if(m_topRight.getX() < m_bottomLeft.getX()){
-		m_topRight.setX(m_bottomLeft.getX());
+	if (topRight.getX() < bottomLeft.getX()) {
+		m_topRight.setX(bottomLeft.getX());
+		m_bottomLeft.setX(topRight.getX());
 	}
-
-    if(m_topRight.getY() < m_bottomLeft.getY()){
-         m_topRight.setY(m_bottomLeft.getY());
-}
-
-}
-
-
-void CRectangle::setCorners(CPoint bottomLeft, CPoint topRight)
-{
-
-	if(topRight.getX() > bottomLeft.getX()){
-		   m_topRight = topRight;
-		   m_bottomLeft = bottomLeft;
-		}
-
-	    if(topRight.getY() >bottomLeft.getY()){
-	         m_bottomLeft = bottomLeft;
-	         m_topRight = topRight;
+	if (topRight.getY() < bottomLeft.getY()) {
+		m_topRight.setY(bottomLeft.getY());
+		m_bottomLeft.setY(topRight.getY());
 	}
 }
 
-CPoint CRectangle::getBottomLeftCorner()const
-{
+CPoint CRectangle::getBottomLeftCorner()const{
 	return m_bottomLeft;
 }
 
-CPoint CRectangle::getTopRightCorner() const
-{
+CPoint CRectangle::getTopRightCorner() const{
 	return m_topRight;
 
 }
 
-void CRectangle::setFillChar(char fillChar)
-{
+void CRectangle::setFillChar(char fillChar){
 	m_fillChar = fillChar;
 }
 
-char CRectangle::getFillChar() const
-{
+char CRectangle::getFillChar() const{
 	return m_fillChar;
 }
 
-bool CRectangle::operator ==(const CRectangle& other) const
-{
+bool CRectangle::operator ==(const CRectangle& other) const{
 	return m_topRight == other.m_topRight &&  m_bottomLeft == other.m_bottomLeft &&m_fillChar == other.m_fillChar;
 
 }
 
-void CRectangle::draw(CScreen& screen) const
-{
+void CRectangle::draw(CScreen& screen) const{
 
 
     for (int x = m_bottomLeft.getX(); x <= m_topRight.getX(); x++) {

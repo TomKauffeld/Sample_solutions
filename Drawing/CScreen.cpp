@@ -11,47 +11,33 @@ using namespace std;
 
 
 
-CScreen::CScreen()
-{
+CScreen::CScreen(){
 	clear();
 }
 
-void CScreen::setPoint(CPoint point, char content)
-{
+void CScreen::setPoint(CPoint point, char content){
 	if (point.getX() < 0 || point.getY() < 0
-			|| point.getY() * 80 + point.getX() >= 24*80) {
+			|| point.getY() >= SCREEN_HEIGHT || point.getX() >= SCREEN_WIDTH) {
 		return;
 	}
-	m_content[point.getY() * 80 + point.getX()] = content;
+	m_content[point.getY() * SCREEN_WIDTH + point.getX()] = content;
 }
 
-void CScreen::print() const
-{
-	cout << "    ";
-	for (int col = 0; col < 80; col++) {
-		cout << col / 10;
-	}
-	cout << endl;
-	cout << "    ";
-	for (int col = 0; col < 80; col++) {
-		cout << col % 10;
-	}
-	cout << endl;
-	for (int row = 23; row >= 0; row--) {
-		if (row < 10) {
-			cout << ' ';
+void CScreen::print() const{
+	// in order to print, first we loop over all the rows
+	for (int y = SCREEN_HEIGHT - 1; y >= 0; y--) {
+		// for each row, we loop over every column
+		for (int x = 0; x < SCREEN_WIDTH; x++) {
+			// and for each point, we print the character to the screen at that position
+			cout << m_content[y * SCREEN_WIDTH + x];
 		}
-		cout << row << ": ";
-		for (int col = 0; col < 80; col++) {
-			cout << m_content[row * 80 + col];
-		}
+		// and at the end of every row, we print an endline in order to go to the next row in the console
 		cout << endl;
 	}
-	cout << endl;
 }
 
 void CScreen::clear() {
-	for (int i = 0; i < 24*80; i++) {
+	for (int i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
 		m_content[i] = '.';
 	}
 }

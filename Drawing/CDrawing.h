@@ -7,8 +7,8 @@
 
 #ifndef CDRAWING_H_
 #define CDRAWING_H_
-#include<iostream>
-#include"CRectangle.h"
+#include <iostream>
+#include "CRectangle.h"
 
 class CDrawing{
 private:

@@ -7,22 +7,22 @@
 
 #ifndef ASCIISCREENSOLUTION_MYCODE_CSCREEN_H_
 #define ASCIISCREENSOLUTION_MYCODE_CSCREEN_H_
-#include<iostream>
 
+#include <iostream>
 #include "CPoint.h"
 
-
+#define SCREEN_WIDTH 80
+#define SCREEN_HEIGHT 24
 
 
 /**
  * Dies Klasse repr‰sentiert einen Bereich von 80x24 "Punkten",
  * die als ein beliebiges Zeichen dargestellt werden kˆnnen.
  */
-class CScreen
-{
+class CScreen {
 private:
 	/** Der Speicher f¸r die Darstellung der Punkte. */
-	char m_content[24*80];
+	char m_content[SCREEN_WIDTH * SCREEN_HEIGHT];
 
 public:
 	/**

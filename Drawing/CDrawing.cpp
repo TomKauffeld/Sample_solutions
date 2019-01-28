@@ -14,12 +14,11 @@ using namespace std;
 
 CDrawing::CDrawing(int initialSize ){
 
-	if(initialSize <10){
-
-		initialSize =10;
+	if (initialSize < 10){
+		initialSize = 10;
 	}
 	m_arraySize = initialSize;
-	m_rectangles = new CRectangle [m_arraySize];
+	m_rectangles = new CRectangle[m_arraySize];
 }
 
 
@@ -29,72 +28,35 @@ CDrawing::~CDrawing(){
 }
 
 void CDrawing::add(const CRectangle& rectangle){
-	m_rectangles = new CRectangle [m_arraySize];
+	// first let's check if there is enough space
+	if (m_nextFree >= m_arraySize) {
+		// there isn't, so let's double the size
+		m_arraySize *= 2;
+		// then create a new array with the new size
+		CRectangle * tmp = new CRectangle[m_arraySize];
 
-	CRectangle* temp = new CRectangle [m_arraySize];
-
-	if(m_nextFree > m_arraySize && m_nextFree <100 ){
-        for(int i = 0; i < m_arraySize; i++){
-			temp[i] = m_rectangles[i];
-
-        }
-
-		delete m_rectangles;
-
-		CRectangle* temp2 = new CRectangle [m_arraySize];
-
-		for(int i = 0; i < m_arraySize; i++) {
-			temp2[i] = temp[i];
+		// now we need to copy the rectangles from the old array to the new array
+		for (int i = 0; i < m_nextFree; i++) {
+			tmp[i] = m_rectangles[i];
 		}
-
-			delete[] temp;
-			m_arraySize = (m_arraySize*2);
-
-
-
-				}
-
-	if(m_nextFree > m_arraySize && m_nextFree >100 ){
-			for(int j = 0; j < m_arraySize; j++){
-				temp[j] = m_rectangles[j];
-
-	        }
-
-			delete m_rectangles;
-
-			 CRectangle* space = new CRectangle [m_arraySize];
-
-			for(int j = 0; j < m_arraySize; j++) {
-				space[j] = temp[j];
-			}
-
-				delete[] temp;
-				m_arraySize +=  100;
-
-
-
-					}
-
-	      m_rectangles[m_nextFree++] = rectangle;
-
+		// let's delete the old array (else we get a memory leak)
+		delete m_rectangles;
+		// and finaly we set the pointer to our new array
+		m_rectangles = tmp;
+	}
+	// when there is space (enough space, or we created space)
+	// let's add our new rectangle to the list
+	m_rectangles[m_nextFree++] = rectangle;
 }
+
 
 void CDrawing::print(){
 	CRectangle* pos = nullptr;
 
-
-
-	for( int i = 0;i < m_nextFree; i++){
-        CRectangle* pos = &m_rectangles[i];
-		cout << i;
-
-
-
+	for (int i = 0; i < m_nextFree; i++){
+        pos = &m_rectangles[i];
+		cout << i; // at the moment this just prints the index, what is the goal of this function ?
 	}
-
-
-
-
 
 }
 
